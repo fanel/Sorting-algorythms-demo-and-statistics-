@@ -1,3 +1,4 @@
+
 /////////////Inserción//////////////////////
 template <class T>
 int Insercion (T* vector, int size) {
@@ -37,4 +38,135 @@ int Interburbuja (T* vector, int size) {
 				vector [par + 1] = t;
 				camb++;
 				cout << "\n";///////////////////////////////
-				for (int n = 0; n < size; n
+				for (int n = 0; n < size; n++)
+					cout << vector[n] << " ";
+			}
+			par--;
+		}
+		ord++;
+	}
+	return iteraciones;
+}
+////////////////////////////////////////////
+
+//////////////////Heapsort/////////////////
+template <class T>
+int Hsort (T* vector, int size) {
+	int i = 1, j, j2, desor = size, iteraciones = 0;
+	T t;
+	while (i <= desor){
+		j2 = i;
+		j = j2/2;
+		while  ((j2 > 1) && (vector [j - 1] < vector [j2 - 1])){
+			iteraciones++;
+			t = vector [j - 1];
+			vector [j - 1] = vector [j2 - 1];
+			vector [j2 - 1] = t;
+			j2 = j;
+			j = j2/2;
+			cout << "\n";///////////////////////////////
+			for (int n = 0; n < size; n++)
+				cout << vector[n] << " ";
+		}
+		i++;
+	}
+	
+	
+	while (desor > 1) {///////// o que 2
+		desor--;
+		t = vector [desor];
+		vector [desor] = vector [0];
+		vector [0] = t;
+		i = 1;
+		j = 0;
+		while  ((i * 2) <= desor){
+			iteraciones++;
+			if (((i * 2 + 1) <= desor) && (vector [i * 2] <= vector [i * 2 - 1]) && (vector [i * 2] < vector [i - 1])){
+				t = vector [i - 1];
+				vector [i - 1] = vector [i * 2];
+				vector [i * 2] = t;
+				i = i * 2 + 1;
+				cout << "\n";///////////////////////////////
+				for (int n = 0; n < size; n++)
+					cout << vector[n] << " ";
+			} else if (vector [i * 2 - 1] < vector [i - 1]){
+				t = vector [i - 1];
+				vector [i - 1] = vector [i * 2 - 1];
+				vector [i * 2 - 1] = t;
+				i = i * 2;
+				cout << "\n";///////////////////////////////7
+				for (int n = 0; n < size; n++)
+					cout << vector[n] << " ";
+			} else break;
+		}
+	}
+	return iteraciones;
+}
+///////////////////////////////////////////////////////////
+
+/////int iteraciones////////Quicksort/////////////////////
+template <class T>
+int Qsort(T* vector, int fin, int ini = 0, int size = 0) {
+	if(size==0)size=fin;
+	int i = ini,  j = fin - 1, iteraciones = 0;
+	T pivote = vector [(i + j)/2];
+	T t;
+	while (i < j) {
+		while (vector [i] <= pivote) {
+			i++;
+			iteraciones++;
+		}
+		while (vector [j] >= pivote) {
+			j--;
+			iteraciones++;
+		}
+		if (!(i >= j)) {
+			t = vector [i] ;
+			vector [i] = vector [j] ;
+			vector [j] = t ;
+			cout << "\n";///////////////////////////////
+			for (int n = 0; n < size; n++)
+				cout << vector[n] << " ";
+		}
+	}
+	if (ini < j) {
+		iteraciones  += Qsort(vector, j, ini, size) ;
+	}
+	if (i < (fin - 1)) {
+		iteraciones += Qsort(vector, fin, i + 1, size) ;
+	}
+	return (iteraciones);
+}
+
+///////////////////////////////////////////////////////////
+
+//////////////////////Shellsort alfa///////////////////
+template <class T>
+int Shsort (T* vector, int size , float alfa) {
+	int salto = size, elems, mayor, iteraciones = 0;
+	T t;
+	do {
+		salto *= alfa;
+		if (salto <= 1) salto = 1;
+		elems = (size - 1) / salto;
+		
+		while (elems > 1){
+			mayor = 0;
+			for (int n = 1; n <= elems; n++){
+				iteraciones++;
+				if (vector [n] > vector [mayor])
+					mayor = n;
+			}
+			if (mayor != elems){
+				t = vector [mayor] ;
+				vector [mayor] = vector [elems] ;
+				vector [elems] = t ;
+				cout << "\n";///////////////////////////////
+				for (int n = 0; n < size; n++)
+					cout << vector[n] << " ";
+			}
+			elems--;
+		}
+	} while (salto != 1);
+	return iteraciones;
+}
